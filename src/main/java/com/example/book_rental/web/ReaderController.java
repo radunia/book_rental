@@ -1,12 +1,14 @@
 package com.example.book_rental.web;
 
 import com.example.book_rental.persistance.Reader;
+import com.example.book_rental.persistance.Rental;
 import com.example.book_rental.service.ReaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +35,11 @@ public class ReaderController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         readerService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/books")
+    public List<Rental> getUserBookById(@PathVariable Long id){
+        return readerService.findUserBooksById(id);
     }
 
 }

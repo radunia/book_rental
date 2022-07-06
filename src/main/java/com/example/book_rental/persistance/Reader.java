@@ -3,11 +3,10 @@ package com.example.book_rental.persistance;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,4 +27,8 @@ public class Reader {
 //    @Range(min = 9, max = 9)
     private Integer phoneNumber;
     private Integer cardNumber;
+    private BigDecimal penaltyFee;
+
+    @OneToMany (cascade = {CascadeType.ALL})
+    private List<Rental> rentalList;
 }

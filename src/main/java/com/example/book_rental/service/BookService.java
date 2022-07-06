@@ -23,10 +23,15 @@ public class BookService {
         return bookRepository.findAll(pageable);
     }
 
+    public Book findById(Long id){
+        return bookRepository.findById(id).orElseThrow();
+    }
+
     public Book save(Book book) {
         return bookRepository.save(book);
     }
     public void deleteById (Long id){
         bookRepository.deleteById(id);
     }
+
 }
