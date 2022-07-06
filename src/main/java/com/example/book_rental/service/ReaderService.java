@@ -1,11 +1,16 @@
 package com.example.book_rental.service;
 
+import com.example.book_rental.persistance.PhysicalBook;
 import com.example.book_rental.persistance.Reader;
+import com.example.book_rental.persistance.Rental;
 import com.example.book_rental.repository.ReaderRepository;
+import com.example.book_rental.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +29,16 @@ public class ReaderService {
         return readerRepository.save(reader);
     }
 
+
     public void deleteById(Long id){
         readerRepository.deleteById(id);
     }
+
+    public List<Rental> findUserBooksById(Long id){
+        Optional<Reader> reader = readerRepository.findById(id);
+        List<Rental> rentalList = reader.get().getRentalList();
+        return rentalList;
+    }
+        
+
 }

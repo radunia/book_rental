@@ -34,6 +34,11 @@ public class BookController {
         return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getId(@PathVariable Long id){
+        return ResponseEntity.ok(bookService.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Book> save(@RequestBody Book book){
         return ResponseEntity.ok(bookService.save(book));
