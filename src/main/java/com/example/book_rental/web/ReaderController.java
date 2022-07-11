@@ -2,6 +2,7 @@ package com.example.book_rental.web;
 
 import com.example.book_rental.persistance.Reader;
 import com.example.book_rental.persistance.Rental;
+import com.example.book_rental.repository.ReaderRepository;
 import com.example.book_rental.service.ReaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ReaderController {
     private final ReaderService readerService;
 
     @GetMapping("/{id}")
-    ResponseEntity<Reader> getId(@PathVariable Long id) {
+    ResponseEntity<Optional<Reader>> getId(@PathVariable Long id) {
         return ResponseEntity.ok(readerService.findById(id));
     }
 
@@ -37,8 +38,14 @@ public class ReaderController {
         readerService.deleteById(id);
     }
 
+//    @GetMapping("/{id}/books")
+//    public List<Rental> getUserBookById(@PathVariable Long id){
+//        return readerService.findUserBooksById(id);
+//    }
+
+
     @GetMapping("/{id}/books")
-    public List<Rental> getUserBookById(@PathVariable Long id){
+    public List<Rental> getUserBookById(@PathVariable ("id") long id){
         return readerService.findUserBooksById(id);
     }
 
