@@ -6,13 +6,15 @@ import com.example.book_rental.repository.PhysicalBookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PhysicalBookService {
     private final PhysicalBookRepository physicalBookRepository;
 
-    public PhysicalBook findById(Long id){
-        return physicalBookRepository.findById(id).orElseThrow();
+    public Optional<PhysicalBook> findById(Long id){
+        return physicalBookRepository.findById(id);
     }
 
     public PhysicalBook save(PhysicalBook physicalBook){

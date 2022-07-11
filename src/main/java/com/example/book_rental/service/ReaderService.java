@@ -5,6 +5,7 @@ import com.example.book_rental.persistance.Reader;
 import com.example.book_rental.persistance.Rental;
 import com.example.book_rental.repository.ReaderRepository;
 import com.example.book_rental.repository.RentalRepository;
+import com.example.book_rental.web.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class ReaderService {
 
     private final ReaderRepository readerRepository;
 
-    public Reader findById(Long id){
-        return readerRepository.findById(id).orElseThrow();
+    public Optional<Reader> findById(Long id){
+        return readerRepository.findById(id);
     }
 
     public List<Reader> findAll(){
@@ -35,8 +36,8 @@ public class ReaderService {
     }
 
     public List<Rental> findUserBooksById(Long id){
-        Optional<Reader> reader = readerRepository.findById(id);
-        List<Rental> rentalList = reader.get().getRentalList();
+        Reader reader = readerRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        List<Rental> rentalList = reader.getRentalList();
         return rentalList;
     }
         

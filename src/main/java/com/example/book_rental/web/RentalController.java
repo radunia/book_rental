@@ -15,21 +15,15 @@ public class RentalController {
 
     private final RentalService rentalService;
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<Rental> getId(@PathVariable Long id) {
         return ResponseEntity.ok(rentalService.findById(id));
     }
 
-//    @PostMapping("/reader/{readerId}/physicalbook/{physicalBookId}")
-//    public void rentalBook(@PathVariable Long readerId, @PathVariable Long physicalBookId) {
-//        rentalService.rentalBook(readerId, physicalBookId);
-//    }
 
     @PostMapping("/rent")
     public void rentalBook(@RequestBody RentDTO rentDTO) {
-        rentalService.rentalBook(Long.valueOf(rentDTO.getReaderId()), Long.valueOf(rentDTO.getPhysicalBookId()));
+        rentalService.rentalBook(rentDTO.getReaderId(), rentDTO.getPhysicalBookId());
     }
 
 }

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/physicalbooks")
@@ -14,7 +16,7 @@ public class PhysicalBookController {
     private final PhysicalBookService physicalBookService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<PhysicalBook> getId(@PathVariable Long id){
+    public ResponseEntity<Optional<PhysicalBook>> getId(@PathVariable Long id){
         return ResponseEntity.ok(physicalBookService.findById(id));
     }
 
