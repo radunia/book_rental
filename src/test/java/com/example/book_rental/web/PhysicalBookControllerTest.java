@@ -1,7 +1,8 @@
 package com.example.book_rental.web;
 
-import com.example.book_rental.persistance.Rental;
-import com.example.book_rental.service.RentalService;
+import com.example.book_rental.persistance.PhysicalBook;
+import com.example.book_rental.service.PhysicalBookService;
+import com.example.book_rental.service.ReaderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,40 +11,43 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( value = RentalController.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
-class RentalControllerTest {
+@WebMvcTest( value = PhysicalBookService.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
+class PhysicalBookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private RentalService rentalService;
+    private PhysicalBookService physicalBookService;
 
-    private static final Rental RENTAL = new Rental(1L, null, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()),null);
+    private static final PhysicalBook PHYSICAL_BOOK = new PhysicalBook(1L, "Potop", new Date(System.currentTimeMillis()), null);
+
 
     @Test
-    public void shouldNotSaveRental() throws Exception{
-        when(rentalService.save(RENTAL)).thenReturn(RENTAL);
+    void savePhysicalBook() throws Exception {
+        when(physicalBookService.save(PHYSICAL_BOOK)).thenReturn(PHYSICAL_BOOK);
 
-        this.mockMvc.perform(post("/rentals")
-                .content(asJsonString(new Rental(1L, null, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()),null)))
+        this.mockMvc.perform(post("/physicalbooks")
+                .content(asJsonString(new PhysicalBook(1L, "Potop", new Date(System.currentTimeMillis()), null)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andDo(print()).andExpect(status().isOk());
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.physicalBookId").exists())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Potop"));
+
     }
-    @Test
-    void rentalBook() {
-    }
+
+
 
     public static String asJsonString(final Object obj) {
         try {

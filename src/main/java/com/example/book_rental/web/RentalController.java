@@ -1,7 +1,5 @@
 package com.example.book_rental.web;
 
-import com.example.book_rental.persistance.PhysicalBook;
-import com.example.book_rental.persistance.Reader;
 import com.example.book_rental.persistance.Rental;
 import com.example.book_rental.service.RentalService;
 import lombok.RequiredArgsConstructor;

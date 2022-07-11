@@ -19,8 +19,15 @@ public class ReaderController {
     private final ReaderService readerService;
 
     @GetMapping("/{id}")
-    ResponseEntity<Optional<Reader>> getId(@PathVariable Long id) {
-        return ResponseEntity.ok(readerService.findById(id));
+    ResponseEntity<Reader> getId(@PathVariable Long id) {
+
+        Optional<Reader> reader = readerService.findById(id);
+        if(reader.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else{
+            return ResponseEntity.ok(reader.get());
+        }
+
     }
 
     @GetMapping
