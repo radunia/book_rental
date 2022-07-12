@@ -16,4 +16,9 @@ public class ExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage("book not found"));
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {RentalBookListIsToLargeException.class})
+    public ResponseEntity<ErrorMessage> rentalBookListIsToLarge(RentalBookListIsToLargeException ex){
+        return ResponseEntity.badRequest().body(new ErrorMessage("Unfortunately you cannot borrow another book. The limit is 10."));
+    }
+
 }
