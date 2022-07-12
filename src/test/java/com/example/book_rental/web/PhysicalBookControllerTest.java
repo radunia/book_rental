@@ -14,14 +14,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( value = PhysicalBookService.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
+@WebMvcTest( value = PhysicalBookController.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
 class PhysicalBookControllerTest {
 
     @Autowired
@@ -32,6 +34,14 @@ class PhysicalBookControllerTest {
 
     private static final PhysicalBook PHYSICAL_BOOK = new PhysicalBook(1L, "Potop", new Date(System.currentTimeMillis()), null);
 
+    @Test
+    void shouldNotFoundPhysicalBookFromServices() throws Exception{
+        when(physicalBookService.findById(1L)).thenReturn(Optional.of(PHYSICAL_BOOK));
+
+        this.mockMvc.perform(get("/physicalbooks/50"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     void savePhysicalBook() throws Exception {

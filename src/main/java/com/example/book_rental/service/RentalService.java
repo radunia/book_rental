@@ -43,6 +43,7 @@ public class RentalService {
 
 
 
+
 //        Optional<Rental> result = Optional.empty();
 //        Optional<Reader> reader = readerService.findById(readerId);
 //        reader.ifPresent(t -> {
