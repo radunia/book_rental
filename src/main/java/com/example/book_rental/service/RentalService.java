@@ -6,6 +6,7 @@ import com.example.book_rental.persistance.Rental;
 import com.example.book_rental.repository.ReaderRepository;
 import com.example.book_rental.repository.RentalRepository;
 import com.example.book_rental.web.PhysicalBookNotFoundException;
+import com.example.book_rental.web.RentalBookListIsToLargeException;
 import com.example.book_rental.web.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,30 @@ public class RentalService {
     @Transactional
     public void rentalBook(Long readerId, Long physicalBookId) {
         Reader reader = readerService.findById(readerId).orElseThrow(UserNotFoundException::new);
+
+        int amountRentalBooks = reader.getRentalList().size();
+//        try{
+//            amountRentalBooks=11;
+//        } catch (RentalBookListIsToLargeException ex){
+//            ex.printStackTrace();
+//            throw new RentalBookListIsToLargeException();
+//        }
+//
+//        PhysicalBook book = physicalBookService.findById(physicalBookId).orElseThrow(PhysicalBookNotFoundException::new);
+//            Rental rental = new Rental();
+//            rental.setPhysicalBook(book);
+//            reader.getRentalList().add(rental);
+//            readerRepository.save(reader);
+
+        if (amountRentalBooks>10) {
+            throw new RentalBookListIsToLargeException();
+        }
         PhysicalBook book = physicalBookService.findById(physicalBookId).orElseThrow(PhysicalBookNotFoundException::new);
         Rental rental = new Rental();
         rental.setPhysicalBook(book);
         reader.getRentalList().add(rental);
         readerRepository.save(reader);
+
 
 
 
@@ -57,7 +77,25 @@ public class RentalService {
 //            });
 //        });
 
+/*
 
+//        if(amountRentalBooks==10){
+//            throw RentalBookListIsToLargeException;
+//        } else{
+//            PhysicalBook book = physicalBookService.findById(physicalBookId).orElseThrow(PhysicalBookNotFoundException::new);
+//            Rental rental = new Rental();
+//            rental.setPhysicalBook(book);
+//            reader.getRentalList().add(rental);
+//            readerRepository.save(reader);
+//        }
+        int amountRentalBooks = reader.getRentalList().size();
+        if(amountRentalBooks>=10){
+            System.out.println("you can't rent a book");
+        } else{
+            reader.getRentalList().add(rental);
+            readerRepository.save(reader);
+        }
+ */
 
 
     }
