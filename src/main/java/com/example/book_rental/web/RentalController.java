@@ -21,6 +21,7 @@ public class RentalController {
 
     @PostMapping("/rent")
     public void rentalBook(@RequestBody RentDTO rentDTO) {
+
         rentalService.rentalBook(rentDTO.getReaderId(), rentDTO.getPhysicalBookId());
     }
 

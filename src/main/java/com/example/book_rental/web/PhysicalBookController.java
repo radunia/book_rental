@@ -16,8 +16,14 @@ public class PhysicalBookController {
     private final PhysicalBookService physicalBookService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<PhysicalBook>> getId(@PathVariable Long id){
-        return ResponseEntity.ok(physicalBookService.findById(id));
+    public ResponseEntity<PhysicalBook> getId(@PathVariable Long id){
+        Optional<PhysicalBook> physicalBook = physicalBookService.findById(id);
+        if(physicalBook.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else{
+            return ResponseEntity.ok(physicalBook.get());
+        }
+
     }
 
     @PostMapping
